@@ -1,13 +1,13 @@
 'use strict';
 
 var cubdiApp = angular.module('cubdiApp', [])
-  .config(['$routeProvider', function($routeProvider) {
+.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-      .when('/', {
+    .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .otherwise({
+        controller: 'MainController'
+    })
+    .otherwise({
         redirectTo: '/'
-      });
-  }]);
+    });
+}]);
