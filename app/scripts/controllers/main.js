@@ -1,6 +1,6 @@
 'use strict';
 
-cubdiApp.controller('MainController', function($scope) {
+cubdiApp.controller('MainCtrl', function($scope) {
   $scope.awesomeThings = [
     'HTML5 Boilerplate',
     'AngularJS',
