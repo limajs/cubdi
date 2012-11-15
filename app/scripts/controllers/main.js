@@ -1,9 +1,9 @@
 'use strict';
 
-cubdiApp.controller('MainCtrl', function($scope, $http) {
+function MainCtrl($scope, $http) {
     $http.get('/view/main').
-        success(function (data, status, headers, config) {
-            $scope.todaysMeals = data.todaysMeals;
-            $scope.reminders = data.reminders;
-        });
-});
+    success(function (data, status, headers, config) {
+        $scope.todaysMeals = data.todaysMeals;
+        $scope.reminders = data.reminders;
+    });
+}

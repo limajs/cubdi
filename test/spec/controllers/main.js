@@ -1,26 +1,35 @@
-'use strict';
+describe('Main controller', function() {
 
-describe('Controller: MainCtrl', function() {
+    describe('Main', function(){
+        var scope, ctrl, $httpBackend;
 
-    // load the controller's module
-    beforeEach(module('cubdiApp'));
+        beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
+            $httpBackend = _$httpBackend_;
+            $httpBackend.expectGET('/view/main').respond({
+                todaysMeals: [
+                    'Lasagne',
+                    'Sticky Toffee Pudding'
+                ],
+                reminders: [
+                    {description: 'Reminder 1'},
+                    {description: 'Reminder 2'}
+                ]
+            });
 
-    var MainCtrl,
-    scope;
+            scope = $rootScope.$new();
+            ctrl = $controller(MainCtrl, {$scope: scope});
+        }));
 
-    // Initialize the controller and a mock scope
-    beforeEach(inject(function($controller) {
-        scope = {};
-        MainCtrl = $controller('MainCtrl', {
-            $scope: scope
+        it('Has todays meals', function () {
+            $httpBackend.flush();
+            expect(scope.todaysMeals.length).toBe(2);
+            expect(scope.todaysMeals[0]).toBe('Lasagne');
+            expect(scope.todaysMeals[1]).toBe('Sticky Toffee Pudding');
         });
-    }));
 
-    it('shows a list of todays meals', function() {
-        expect(scope.todaysMeals.length).toBe(1);
-    });
-
-    it('shows a list of reminders', function () {
-        expect(scope.reminders.length).toBe(2);
+        it('Has a list of reminders', function () {
+            $httpBackend.flush();
+            expect(scope.reminders.length).toBe(2);
+        });
     });
 });
