@@ -22,5 +22,17 @@ app.get('/view/main', function (req, res) {
     res.json(viewData);
 });
 
+app.get('/view/shoppinglist', function (req, res) {
+    var viewData = {
+        items: [
+            {description: "Apples"},
+            {description: "Beans"},
+            {description: "Cheese"},
+            {description: "Chick Peas"}
+        ]
+    };
+    res.json(viewData);
+});
+
 server.listen(port);
 console.log("Server listening on port", port);
