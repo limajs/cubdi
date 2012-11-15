@@ -1,12 +1,9 @@
 'use strict';
 
-cubdiApp.controller('MainCtrl', function($scope) {
-    $scope.todaysMeals = [
-        'Vegetable Lasagne'
-    ];
-
-    $scope.reminders = [
-        {description: "Take fish out of freezer"},
-        {description: "Bake loaf for croutons"}
-    ];
+cubdiApp.controller('MainCtrl', function($scope, $http) {
+    $http.get('/view/main').
+        success(function (data, status, headers, config) {
+            $scope.todaysMeals = data.todaysMeals;
+            $scope.reminders = data.reminders;
+        });
 });
