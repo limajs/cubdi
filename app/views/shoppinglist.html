@@ -3,7 +3,10 @@
     <li ng-click="placeInTrolley(item)" class="shopping-list-item isPurchased-{{item.isPurchased}}">{{item.description}}</li>
 </ul>
 
-<h3 ng-show="trolleyHasItems()">these things are in your trolley...</h3>
-<ul ng-repeat="item in itemsInTrolley()">
-    <li class="shopping-list-item isPurchased-{{item.isPurchased}}"><input type="checkbox" ng-model="item.isPurchased">{{item.description}}</li>
-</ul>
+<div ng-show="trolleyHasItems()">
+    <h3 >these things are in your trolley...</h3>
+    <ul ng-repeat="item in itemsInTrolley()">
+        <li class="shopping-list-item isPurchased-{{item.isPurchased}}"><input type="checkbox" ng-model="item.isPurchased">{{item.description}}</li>
+    </ul>
+    <button ng-click="purchaseItemsInTrolley()" class="btn">I have purchased these items</button>
+</div>

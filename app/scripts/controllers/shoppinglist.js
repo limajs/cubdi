@@ -8,23 +8,29 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
             item.isPurchased = true;
         };
 
+        $scope.purchaseItemsInTrolley = function () {
+            $scope.itemsInTrolley().forEach(function (item) {
+                console.log("Purchasing", item);
+                $http.post('/command/purchaseItem', item);
+            });
+        };
 
         $scope.numberOfItemsToPurchase = function () {
             return $scope.items.filter(function (item) {
-                return !item.isPurchased
+                return !item.isPurchased;
             }).length;
         };
 
         $scope.requiredItems = function () {
             return $scope.items.filter(function (item) {
-                return !item.isPurchased
-            })
+                return !item.isPurchased;
+            });
         };
 
         $scope.itemsInTrolley = function () {
             return $scope.items.filter(function (item) {
-                return item.isPurchased
-            })
+                return item.isPurchased;
+            });
         };
 
         $scope.trolleyHasItems = function () {

@@ -4,6 +4,7 @@ server = require("http").createServer(app),
 port = process.env.PORT || 8000;
 
 app.use(express.static('app'));
+app.use(express.bodyParser());
 
 app.get('/', function (req, res) {
     res.sendfile("app/index.html");
@@ -33,6 +34,10 @@ app.get('/view/shoppinglist', function (req, res) {
         ]
     };
     res.json(viewData);
+});
+
+app.post('/command/purchaseItem', function (req, res) {
+    console.log("PurchaseItem command", req.body);
 });
 
 server.listen(port);
