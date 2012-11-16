@@ -1,4 +1,9 @@
 <h3>you need to buy {{numberOfItemsToPurchase()}} thing(s)</h3>
-<ul ng-repeat="item in items">
-    <li class="shopping-list-item"><input type="checkbox" ng-model="item.isPurchased">{{item.description}}</li>
+<ul ng-repeat="item in requiredItems()">
+    <li class="shopping-list-item isPurchased-{{item.isPurchased}}"><input type="checkbox" ng-model="item.isPurchased">{{item.description}}</li>
+</ul>
+
+<h3 ng-show="trolleyHasItems()">these things are in your trolley...</h3>
+<ul ng-repeat="item in itemsInTrolley()">
+    <li class="shopping-list-item isPurchased-{{item.isPurchased}}"><input type="checkbox" ng-model="item.isPurchased">{{item.description}}</li>
 </ul>

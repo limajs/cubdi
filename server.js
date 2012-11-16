@@ -25,10 +25,11 @@ app.get('/view/main', function (req, res) {
 app.get('/view/shoppinglist', function (req, res) {
     var viewData = {
         items: [
-            {description: "Apples"},
-            {description: "Beans"},
-            {description: "Cheese"},
-            {description: "Chick Peas"}
+            {description: "Apples", amount: 1},
+            {description: "Baked Beans", amount: 2},
+            {description: "Cheddar Cheese", amount: 700 },
+            {description: "Chick Peas", amount: 2},
+            {description: "Cat Food"}
         ]
     };
     res.json(viewData);

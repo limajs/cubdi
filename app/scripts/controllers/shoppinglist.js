@@ -8,5 +8,21 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
                 return !item.isPurchased
             }).length;
         };
+
+        $scope.requiredItems = function () {
+            return $scope.items.filter(function (item) {
+                return !item.isPurchased
+            })
+        };
+
+        $scope.itemsInTrolley = function () {
+            return $scope.items.filter(function (item) {
+                return item.isPurchased
+            })
+        };
+
+        $scope.trolleyHasItems = function () {
+            return $scope.itemsInTrolley().length > 0;
+        };
     });
 });
