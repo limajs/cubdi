@@ -4,8 +4,8 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
     $http.get('/view/shoppinglist').success(function (data) {
         $scope.items = data.items;
 
-        $scope.placeInTrolley = function (item) {
-            item.isPurchased = true;
+        $scope.showItemDialog = function (item) {
+            console.log("Show Item", item);
         };
 
         $scope.purchaseItemsInTrolley = function () {
@@ -16,25 +16,8 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
         };
 
         $scope.numberOfItemsToPurchase = function () {
-            return $scope.items.filter(function (item) {
-                return !item.isPurchased;
-            }).length;
+            return $scope.items.length;
         };
 
-        $scope.requiredItems = function () {
-            return $scope.items.filter(function (item) {
-                return !item.isPurchased;
-            });
-        };
-
-        $scope.itemsInTrolley = function () {
-            return $scope.items.filter(function (item) {
-                return item.isPurchased;
-            });
-        };
-
-        $scope.trolleyHasItems = function () {
-            return $scope.itemsInTrolley().length > 0;
-        };
     });
 });
