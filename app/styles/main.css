@@ -1,1 +1,16 @@
 /* Will be compiled down to a single stylesheet with your sass files */
+div.container {
+    width: 90%;
+}
+
+.shopping-list-item {
+    background-color: lightblue;
+    padding: 8px;
+    font-size: 18px;
+    list-style: none;
+}
+
+.shopping-list-item input[type=checkbox] {
+    height: 24px;
+    width: 24px;
+}
