@@ -3,6 +3,12 @@
 cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
     $http.get('/view/shoppinglist').success(function (data) {
         $scope.items = data.items;
+
+        $scope.placeInTrolley = function (item) {
+            item.isPurchased = true;
+        };
+
+
         $scope.numberOfItemsToPurchase = function () {
             return $scope.items.filter(function (item) {
                 return !item.isPurchased
