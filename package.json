@@ -19,6 +19,7 @@
             "node": "0.8.2"
         },
         "dependencies": {
-            "express": "*"
+            "express": "*",
+            "tiny": "*"
         }
 }

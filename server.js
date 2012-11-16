@@ -1,7 +1,15 @@
 var express = require("express"),
 app = express(),
 server = require("http").createServer(app),
+Tiny = require("tiny"),
 port = process.env.PORT || 8000;
+
+var db;
+Tiny('eventstore.tiny', function (err, db_) {
+    if (err) throw err;
+    db = db_;
+});
+var eventId = 0;
 
 app.use(express.static('app'));
 app.use(express.bodyParser());
@@ -26,11 +34,11 @@ app.get('/view/main', function (req, res) {
 app.get('/view/shoppinglist', function (req, res) {
     var viewData = {
         items: [
-            {description: "Apples", amount: 1},
-            {description: "Baked Beans", amount: 2},
-            {description: "Cheddar Cheese", amount: 700 },
-            {description: "Chick Peas", amount: 2},
-            {description: "Cat Food"}
+            {id: 1, description: "Apples", amount: 1},
+            {id: 2, description: "Baked Beans", amount: 2},
+            {id: 3, description: "Cheddar Cheese", amount: 700 },
+            {id: 4, description: "Chick Peas", amount: 2},
+            {id: 5, description: "Cat Food"}
         ]
     };
     res.json(viewData);
@@ -38,6 +46,18 @@ app.get('/view/shoppinglist', function (req, res) {
 
 app.post('/command/purchaseItem', function (req, res) {
     console.log("PurchaseItem command", req.body);
+    eventId++;
+    db.set(eventId, {
+        evt: "ItemPurchased",
+        id: req.body.id,
+        body: req.body
+    }, function (err) {
+        if (err) {
+            throw err;
+        }
+        console.log("EventStored");
+        res.end();
+    });
 });
 
 server.listen(port);
