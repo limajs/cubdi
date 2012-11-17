@@ -10,12 +10,27 @@ div.container {
     list-style: none;
 }
 
-.shopping-list-item input[type=checkbox] {
-    height: 24px;
-    width: 24px;
+.shopping-list-item.isSelected{
+    border: solid 1px blue;
 }
 
-.shopping-list-item.isPurchased-true {
+.shopping-list-item.isBeingPurchased {
     background-color: lightgray;
-    color:gray;
+}
+
+.shopping-list-item.error {
+    background-color: red;
+    color: white;
+}
+.shopping-list-item.isPurchased {
+    background-color: lightgreen;
+}
+.shopping-list-item .purchase-button {
+    display: none;
+}
+.shopping-list-item.isSelected .purchase-button {
+    display: block;
+}
+.shopping-list-item .comments {
+    font-size: 14px;
 }

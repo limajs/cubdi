@@ -46,18 +46,25 @@ app.get('/view/shoppinglist', function (req, res) {
 
 app.post('/command/purchaseItem', function (req, res) {
     console.log("PurchaseItem command", req.body);
-    eventId++;
-    db.set(eventId, {
-        evt: "ItemPurchased",
-        id: req.body.id,
-        body: req.body
-    }, function (err) {
-        if (err) {
-            throw err;
+    setTimeout(function () {
+
+        if (req.body.id === 3) {
+            res.status(500).json({message: "Item has already been purchased by Justine"})
+        } else {
+            eventId++;
+            db.set(eventId, {
+                evt: "ItemPurchased",
+                id: req.body.id,
+                body: req.body
+            }, function (err) {
+                if (err) {
+                    throw err;
+                }
+                console.log("EventStored");
+                res.end();
+            });
         }
-        console.log("EventStored");
-        res.end();
-    });
+    },3000);
 });
 
 server.listen(port);

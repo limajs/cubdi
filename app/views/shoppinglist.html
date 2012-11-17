@@ -1,6 +1,16 @@
-<h3>you need to buy {{numberOfItemsToPurchase()}} thing(s)</h3>
-<ul ng-repeat="item in items">
-    <li ng-click="showItemDialog(item)" class="shopping-list-item">{{item.description}}</li>
+<h3>{{shoppingListHeading()}}</h3>
+<ul ng-repeat="item in itemsRequired()">
+    <li ng-click="select(item)" class="shopping-list-item {{item.state}}">
+    <span>{{item.description}}</span>
+        <span>{{item.comments}}</span>
+        <button class='btn purchase-button' ng-click="purchaseItem(item)">Purchase</button>
+
+    </li>
 </ul>
 
-<modal></modal>
+<h3>you've just bought...</h3>
+<ul ng-repeat="item in itemsPurchased()">
+    <li class="shopping-list-item {{item.state}}"><span>{{item.description}}</span>
+    <div class="comments">{{item.comments}}</div>
+    </li>
+</ul>
