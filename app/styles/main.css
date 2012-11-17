@@ -8,6 +8,7 @@ div.container {
     padding: 8px;
     font-size: 18px;
     list-style: none;
+    cursor: pointer;
 }
 
 .shopping-list-item.isSelected{
@@ -16,6 +17,7 @@ div.container {
 
 .shopping-list-item.isBeingPurchased {
     background-color: lightgray;
+    cursor: default;
 }
 
 .shopping-list-item.error {
@@ -24,6 +26,7 @@ div.container {
 }
 .shopping-list-item.isPurchased {
     background-color: lightgreen;
+    cursor: default;
 }
 .shopping-list-item .purchase-button {
     display: none;

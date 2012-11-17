@@ -49,7 +49,7 @@ app.post('/command/purchaseItem', function (req, res) {
     setTimeout(function () {
 
         if (req.body.id === 3) {
-            res.status(500).json({message: "Item has already been purchased by Justine"})
+            res.json({message: "Item has already been purchased by Justine"})
         } else {
             eventId++;
             db.set(eventId, {

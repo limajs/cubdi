@@ -7,16 +7,16 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
         $scope.itemsRequired = function () {
             return $scope.items.filter(function (item) {
                 return (item.state !== 'isPurchased' &&
-                        item.state !== 'isBeingPurchased' &&
-                        item.state !== 'error');
+                    item.state !== 'isBeingPurchased' &&
+                item.state !== 'error');
             });
         };
 
         $scope.itemsPurchased = function () {
             return $scope.items.filter(function (item) {
                 return (item.state === 'isPurchased' ||
-                        item.state === 'isBeingPurchased' ||
-                        item.state === 'error');
+                    item.state === 'isBeingPurchased' ||
+                item.state === 'error');
             });
         };
 
@@ -26,11 +26,13 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
         };
 
         $scope.purchaseItem = function (item) {
-            $http.post('/command/purchaseItem', item).success(function () {
-                item.state = 'isPurchased';
-            }).error(function (data) {
-                item.state = "error";
-                item.comments = data.message;
+            $http.post('/command/purchaseItem', item).success(function (data) {
+                if (!data) {
+                    item.state = 'isPurchased';
+                } else {
+                    item.comments = data.message;
+                    item.state = 'error';
+                }
             });
             item.state = 'isBeingPurchased';
         };
