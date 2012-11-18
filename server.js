@@ -4,6 +4,24 @@ server = require("http").createServer(app),
 Tiny = require("tiny"),
 port = process.env.PORT || 8000;
 
+var shoppingListView = {
+         items: [
+            {id: 1, description: "Apples", amount: 1},
+            {id: 2, description: "Baked Beans", amount: 2},
+            {id: 3, description: "Cheddar Cheese", amount: 700 },
+            {id: 4, description: "Chick Peas", amount: 2},
+            {id: 5, description: "Cat Food"}
+        ]
+};
+
+app.on('ItemAddedToShoppingList', function (item) {
+    console.log("Handling ItemAddedToShoppingList", item);
+    shoppingListView.items.push({
+        id: shoppingListView.items.length + 1,
+        description: item.description
+    });
+});
+
 function raiseEvent (evtType, entityId, body, callback) {
     eventId++;
     db.set(eventId, {
@@ -11,6 +29,7 @@ function raiseEvent (evtType, entityId, body, callback) {
         id: entityId,
         body: body
     }, function (err) {
+        app.emit(evtType, body);
         callback(err);
     });
 }
@@ -43,16 +62,7 @@ app.get('/view/main', function (req, res) {
 });
 
 app.get('/view/shoppinglist', function (req, res) {
-    var viewData = {
-        items: [
-            {id: 1, description: "Apples", amount: 1},
-            {id: 2, description: "Baked Beans", amount: 2},
-            {id: 3, description: "Cheddar Cheese", amount: 700 },
-            {id: 4, description: "Chick Peas", amount: 2},
-            {id: 5, description: "Cat Food"}
-        ]
-    };
-    res.json(viewData);
+    res.json(shoppingListView);
 });
 
 app.post('/command/purchaseItem', function (req, res) {
@@ -68,12 +78,17 @@ app.post('/command/purchaseItem', function (req, res) {
                 }
                 console.log("EventStored");
                 res.end();
-
             });
         }
     },3000);
 });
 
+app.post('/command/addItemToShoppingList', function (req, res) {
+    console.log("AddItemToShoppingList command", req.body);
+    raiseEvent("ItemAddedToShoppingList", req.body.id, req.body, function (err) {
+        res.end();
+    });
+});
 
 app.get('/events/dump', function (req, res) {
     var response = "";
