@@ -4,6 +4,17 @@ server = require("http").createServer(app),
 Tiny = require("tiny"),
 port = process.env.PORT || 8000;
 
+function raiseEvent (evtType, entityId, body, callback) {
+    eventId++;
+    db.set(eventId, {
+        evt: evtType,
+        id: entityId,
+        body: body
+    }, function (err) {
+        callback(err);
+    });
+}
+
 var db;
 Tiny('eventstore.tiny', function (err, db_) {
     if (err) throw err;
@@ -51,20 +62,26 @@ app.post('/command/purchaseItem', function (req, res) {
         if (req.body.id === 3) {
             res.json({message: "Item has already been purchased by Justine"})
         } else {
-            eventId++;
-            db.set(eventId, {
-                evt: "ItemPurchased",
-                id: req.body.id,
-                body: req.body
-            }, function (err) {
+            raiseEvent('ItemPurchased', req.body.id, req.body, function (err) {
                 if (err) {
                     throw err;
                 }
                 console.log("EventStored");
                 res.end();
+
             });
         }
     },3000);
+});
+
+
+app.get('/events/dump', function (req, res) {
+    var response = "";
+    db.each(function (data) {
+        response += JSON.stringify(data);
+    }, function () {
+        res.send(response);
+    });
 });
 
 server.listen(port);
