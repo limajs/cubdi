@@ -4,7 +4,14 @@ server = require("http").createServer(app),
 Tiny = require("tiny"),
 port = process.env.PORT || 8000;
 
+var db;
+Tiny('eventstore.tiny', function (err, db_) {
+    if (err) throw err;
+    db = db_;
+});
+var eventId = 0;
 var shoppingListView = {
+
          items: [
             {id: 1, description: "Apples", amount: 1},
             {id: 2, description: "Baked Beans", amount: 2},
@@ -34,12 +41,6 @@ function raiseEvent (evtType, entityId, body, callback) {
     });
 }
 
-var db;
-Tiny('eventstore.tiny', function (err, db_) {
-    if (err) throw err;
-    db = db_;
-});
-var eventId = 0;
 
 app.use(express.static('app'));
 app.use(express.bodyParser());
@@ -91,12 +92,7 @@ app.post('/command/addItemToShoppingList', function (req, res) {
 });
 
 app.get('/events/dump', function (req, res) {
-    var response = "";
-    db.each(function (data) {
-        response += JSON.stringify(data);
-    }, function () {
-        res.send(response);
-    });
+    res.download('eventstore.tiny');
 });
 
 server.listen(port);
