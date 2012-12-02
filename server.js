@@ -59,9 +59,16 @@ app.on('ItemAddedToShoppingList', function (item) {
 
 app.on('ItemPurchased', function (purchasedItem) {
     console.log("Handling ItemPurchased", purchasedItem);
-    shoppingListView.items.filter(function (item) {
+    var viewItem = shoppingListView.items.filter(function (item) {
         return item.id === purchasedItem.id
-    })[0].state = 'isPurchased';
+    });
+    if (viewItem[0]) {
+
+        viewItem[0].state = 'isPurchased';
+    } else {
+
+        throw {message: "Can't find purchasedItem in view", view: shoppingListView};
+    }
 });
 
 function raiseEvent (evtType, entityId, body, callback) {
