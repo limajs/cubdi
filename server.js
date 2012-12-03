@@ -6,11 +6,12 @@ port = process.env.PORT || 8000,
 eventId = 0,
 db;
 
+console.log("Starting Cubdi Server");
+
 Tiny('eventstore.tiny', function (err, db_) {
     if (err) throw err;
     db = db_;
 
-    console.log("Args", process.argv);
     if (process.argv[2] === 'rebuild-demo-data') {
         db.kill(function (err) {
 
@@ -63,11 +64,9 @@ app.on('ItemPurchased', function (purchasedItem) {
         return item.id === purchasedItem.id
     });
     if (viewItem[0]) {
-
         viewItem[0].state = 'isPurchased';
     } else {
-
-        throw {message: "Can't find purchasedItem in view", view: shoppingListView};
+        console.log("Can't find purchasedItem in view");
     }
 });
 
