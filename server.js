@@ -13,6 +13,8 @@ Tiny('eventstore.tiny', function (err, db_) {
     db = db_;
 
     if (process.argv[2] === 'rebuild-demo-data') {
+        console.log('Rebuilding demo data');
+
         db.kill(function (err) {
 
             raiseEvent("ItemAddedToShoppingList", 1, {id:1, description: "Apples", amount: 1}, function (err) {
@@ -33,6 +35,8 @@ Tiny('eventstore.tiny', function (err, db_) {
         });
     } else {
         //Replay Events
+        console.log('Replaying Events', db.name);
+
         db.each(function (evt) {
             console.log("Reading event", evt);
             eventId++;
