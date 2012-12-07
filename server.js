@@ -41,7 +41,9 @@ Tiny('eventstore.tiny', function (err, db_) {
             console.log("Reading event", evt);
             eventId++;
             app.emit(evt.evt, evt.body);
-        });
+        }, function () {
+            console.log("Finished Replaying Events");
+        }, true);
     }
     server.listen(port);
     console.log("Server listening on port", port);
