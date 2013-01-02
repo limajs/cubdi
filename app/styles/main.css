@@ -37,3 +37,11 @@ div.container {
 .shopping-list-item .comments {
     font-size: 14px;
 }
+
+.items-added .adding {
+    color: #999;
+}
+
+.items-added .added {
+    color: #333;
+}

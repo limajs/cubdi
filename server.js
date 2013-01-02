@@ -81,9 +81,9 @@ app.get('/view/shoppinglist', function (req, res) {
 app.post('/command/purchaseItem', function (req, res) {
     console.log("PurchaseItem command", req.body);
     setTimeout(function () {
-        if (req.body.id === 3) {
-            res.json({message: "Item has already been purchased by Justine"})
-        } else {
+        //if (req.body.id === 3) {
+            //res.json({message: "Item has already been purchased by Justine"})
+        //} else {
             raiseEvent('ItemPurchased', req.body.id, req.body, function (err) {
                 if (err) {
                     throw err;
@@ -91,19 +91,17 @@ app.post('/command/purchaseItem', function (req, res) {
                 console.log("EventStored");
                 res.end();
             });
-        }
-    },3000);
+        //}
+    },100);
 });
 
 app.post('/command/addItemToShoppingList', function (req, res) {
     console.log("AddItemToShoppingList command", req.body);
-    raiseEvent("ItemAddedToShoppingList", req.body.id, req.body, function (err) {
-        res.end();
-    });
-});
-
-app.get('/events/dump', function (req, res) {
-    res.download('eventstore.tiny');
+    setTimeout(function () {
+        raiseEvent("ItemAddedToShoppingList", req.body.id, req.body, function (err) {
+            res.end();
+        });
+    }, 2000);
 });
 
 server.listen(port);
