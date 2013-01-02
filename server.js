@@ -1,57 +1,22 @@
 var express = require("express"),
 app = express(),
 server = require("http").createServer(app),
-Tiny = require("tiny"),
+db = require("dirty")("eventstore.db"),
 port = process.env.PORT || 8000,
-eventId = 0,
-db;
+eventId = 0;
 
 console.log("Starting Cubdi Server");
 
-Tiny('eventstore.tiny', function (err, db_) {
-    if (err) throw err;
-    db = db_;
-
-    if (process.argv[2] === 'rebuild-demo-data') {
-        console.log('Rebuilding demo data');
-
-        db.kill(function (err) {
-
-            raiseEvent("ItemAddedToShoppingList", 1, {id:1, description: "Apples", amount: 1}, function (err) {
-                console.log("Added Apples");
-            });
-            raiseEvent("ItemAddedToShoppingList", 2, {id:2, description: "Baked Beans", amount: 2}, function (err) {
-                console.log("Added Baked Beans");
-            });
-            raiseEvent("ItemAddedToShoppingList", 3, {id:3, description: "Cheddar Cheese", amount: 700}, function (err) {
-                console.log("Added Cheddar Cheese");
-            });
-            raiseEvent("ItemAddedToShoppingList", 4, {id:4, description: "Chick Peas", amount: 2}, function (err) {
-                console.log("Added Chick Peas");
-            });
-            raiseEvent("ItemAddedToShoppingList", 5, {id:5, description: "Cat Food"}, function (err) {
-                console.log("Added Cat Food");
-            });
-        });
-    } else {
-        //Replay Events
-        console.log('Replaying Events', db.name);
-
-        db.each(function (evt) {
-            console.log("Reading event", evt);
-            eventId++;
-            app.emit(evt.evt, evt.body);
-        }, function () {
-            console.log("Finished Replaying Events");
-        }, true);
-    }
-    server.listen(port);
-    console.log("Server listening on port", port);
+db.on("load", function () {
+    //replay events
+    db.forEach(function (key, evt) {
+        console.log("Replaying Event", key, evt);
+        eventId++;
+        app.emit(evt.evtType, evt.body);
+    });
 });
 
-
 var shoppingListView = {
-
     items: [
     ]
 };
@@ -79,7 +44,7 @@ app.on('ItemPurchased', function (purchasedItem) {
 function raiseEvent (evtType, entityId, body, callback) {
     eventId++;
     db.set(eventId, {
-        evt: evtType,
+        evtType: evtType,
         id: entityId,
         body: body
     }, function (err) {
@@ -141,3 +106,5 @@ app.get('/events/dump', function (req, res) {
     res.download('eventstore.tiny');
 });
 
+server.listen(port);
+console.log("Server listening on port", port);

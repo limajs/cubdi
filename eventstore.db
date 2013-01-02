@@ -1,0 +1,3 @@
+{"key":1,"val":{"evtType":"ItemAddedToShoppingList","body":{"description":"Cheddar cheese"}}}
+{"key":2,"val":{"evtType":"ItemAddedToShoppingList","body":{"description":"Soy sauce"}}}
+{"key":3,"val":{"evtType":"ItemPurchased","id":2,"body":{"id":2,"description":"Soy sauce","state":"isSelected"}}}
