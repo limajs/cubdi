@@ -107,6 +107,10 @@ app.get('/view/shoppinglist', function (req, res) {
     res.json(shoppingListView);
 });
 
+app.get('/view/cupboard', function (req, res) {
+    res.json(cupboardView);
+});
+
 app.post('/command/addItemToBasket', function (req, res) {
     console.log("PurchaseItem command", req.body);
     setTimeout(function () {

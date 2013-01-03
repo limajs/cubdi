@@ -6,5 +6,9 @@
     <ul class="items-added" ng-repeat="item in itemsAdded">
         <li class="{{item.status}}">{{item.description}}</li>
     </ul>
+    <h3>These things are in the cupboard</h3>
+    <ul ng-repeat="item in itemsInCupboard">
+        <li>{{item.description}}</li>
+    </ul>
 </div>
 
