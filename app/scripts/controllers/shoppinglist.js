@@ -6,41 +6,50 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
 
         $scope.itemsRequired = function () {
             return $scope.items.filter(function (item) {
-                return (item.state !== 'isPurchased' &&
+                return (item.state !== 'inBasket' &&
                     item.state !== 'isBeingPurchased' &&
                 item.state !== 'error');
             });
         };
 
-        $scope.itemsPurchased = function () {
+        $scope.itemsInBasket = function () {
             return $scope.items.filter(function (item) {
-                return (item.state === 'isPurchased' ||
+                return (item.state === 'inBasket' ||
                     item.state === 'isBeingPurchased' ||
                 item.state === 'error');
             });
         };
 
         $scope.select = function (item) {
-            item.state = 'isSelected';
             $scope.currentlySelectedItem = item;
+        };
+
+        $scope.isCurrentlySelected = function (item) {
+            if (item === $scope.currentlySelectedItem) {
+                return "isSelected";
+            };
+            return "";
         };
 
         $scope.removeItemFromBasket = function (item) {
             $http.post('/command/removeItemFromBasket', item).success(function (data) {
-                item.state = '';
+                item.state = 'isRequired';
             });
+            item.state = "removingFromBasket";
+            $scope.currentlySelectedItem = null;
         };
 
-        $scope.purchaseItem = function (item) {
-            $http.post('/command/purchaseItem', item).success(function (data) {
+        $scope.addItemToBasket = function (item) {
+            $http.post('/command/addItemToBasket', item).success(function (data) {
                 if (!data) {
-                    item.state = 'isPurchased';
+                    item.state = 'inBasket';
                 } else {
                     item.comments = data.message;
                     item.state = 'error';
                 }
             });
             item.state = 'isBeingPurchased';
+            $scope.currentlySelectedItem = null;
         };
 
         $scope.shoppingListHeading = function () {
@@ -53,5 +62,16 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
             }
             return "you need to buy " + $scope.itemsRequired().length + " thing(s)"
         };
+
+        $scope.basketListHeading = function () {
+            var itemsInBasketCount = $scope.itemsInBasket().length;
+            if (itemsInBasketCount === 0) {
+                return "";
+            }
+            if (itemsInBasketCount === 1) {
+                return "you have 1 thing in your basket";
+            }
+            return "you have " + itemsInBasketCount + " things in your basket";
+        }
     });
 });

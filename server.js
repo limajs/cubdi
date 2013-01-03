@@ -25,7 +25,8 @@ app.on('ItemAddedToShoppingList', function (item) {
     console.log("Handling ItemAddedToShoppingList", item);
     shoppingListView.items.push({
         id: shoppingListView.items.length + 1,
-        description: item.description
+        description: item.description,
+        state: 'isRequired'
     });
 });
 
@@ -87,7 +88,7 @@ app.get('/view/shoppinglist', function (req, res) {
     res.json(shoppingListView);
 });
 
-app.post('/command/purchaseItem', function (req, res) {
+app.post('/command/addItemToBasket', function (req, res) {
     console.log("PurchaseItem command", req.body);
     setTimeout(function () {
         //if (req.body.id === 3) {

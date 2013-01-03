@@ -24,14 +24,14 @@ div.container {
     background-color: red;
     color: white;
 }
-.shopping-list-item.isPurchased {
+.shopping-list-item.inBasket {
     background-color: lightgreen;
     cursor: default;
 }
-.shopping-list-item .purchase-button {
+.shopping-list-item .btn {
     display: none;
 }
-.shopping-list-item.isSelected .purchase-button {
+.shopping-list-item.isSelected .btn {
     display: block;
 }
 .shopping-list-item .comments {
