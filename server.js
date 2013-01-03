@@ -111,6 +111,15 @@ app.get('/view/cupboard', function (req, res) {
     res.json(cupboardView);
 });
 
+app.get('/view/menu', function (req, res) {
+    res.json({
+        meals: [
+            {date: "Thursday 3rd Jan", description: "Salmon, Kohlrabi gratin"},
+            {date: "Friday 4th Jan", description: "Lamb tagine"},
+        ]
+    });
+});
+
 app.post('/command/addItemToBasket', function (req, res) {
     console.log("PurchaseItem command", req.body);
     setTimeout(function () {

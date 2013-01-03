@@ -15,6 +15,10 @@ var cubdiApp = angular.module('cubdiApp', [])
         templateUrl: 'views/cupboard.html',
         controller: 'CupboardCtrl'
       })
+      .when('/menus', {
+        templateUrl: 'views/menu.html',
+        controller: 'MenuController'
+      })
       .otherwise({
         redirectTo: '/'
       });
