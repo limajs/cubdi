@@ -3,7 +3,7 @@ div.container {
     width: 90%;
 }
 
-.shopping-list-item {
+.food-list-item {
     background-color: lightblue;
     padding: 8px;
     font-size: 18px;
@@ -11,30 +11,30 @@ div.container {
     cursor: pointer;
 }
 
-.shopping-list-item.isSelected{
+.food-list-item.isSelected{
     background-color: rgba(0, 133, 255, 0.38);
 }
 
-.shopping-list-item.isBeingPurchased {
+.food-list-item.isBeingPurchased {
     background-color: lightgray;
     cursor: default;
 }
 
-.shopping-list-item.error {
+.food-list-item.error {
     background-color: red;
     color: white;
 }
-.shopping-list-item.inBasket {
+.food-list-item.inBasket {
     background-color: lightgreen;
     cursor: default;
 }
-.shopping-list-item .btn {
+.food-list-item .btn {
     display: none;
 }
-.shopping-list-item.isSelected .btn {
+.food-list-item.isSelected .btn {
     display: block;
 }
-.shopping-list-item .comments {
+.food-list-item .comments {
     font-size: 14px;
 }
 
