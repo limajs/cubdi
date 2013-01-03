@@ -1,3 +1,23 @@
+<button class="btn" data-toggle="modal" data-target="#addMealModal">Add meals to menu</button>
+
+<div id="addMealModal" class="modal hide fade">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">x</button>
+        <h3>Add meal</h3>
+    </div>
+    <div class="modal-body">
+        <form>
+            <fieldset>
+                <label>Meal description</label>
+                <input ng-model="newMealDescription" placeholder="Enter meal description here..." />
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="addMealToMenu()">Add</button>
+    </div>
+</div>
+
 <ul ng-repeat="meal in meals">
     <li>
     <div>{{meal.date}}</div>

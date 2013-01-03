@@ -25,6 +25,14 @@ var cupboardView = {
     ]
 };
 
+var menuView = {
+    meals: [
+        {date: "Thursday 3rd Jan", description: "Salmon, Kohlrabi gratin"},
+        {date: "Friday 4th Jan", description: "Lamb tagine"}
+    ]
+};
+
+
 app.on('ItemAddedToShoppingList', function (item) {
     console.log("Handling ItemAddedToShoppingList", item);
     shoppingListView.items.push({
@@ -112,27 +120,22 @@ app.get('/view/cupboard', function (req, res) {
 });
 
 app.get('/view/menu', function (req, res) {
-    res.json({
-        meals: [
-            {date: "Thursday 3rd Jan", description: "Salmon, Kohlrabi gratin"},
-            {date: "Friday 4th Jan", description: "Lamb tagine"},
-        ]
-    });
+    res.json(menuView);
 });
 
 app.post('/command/addItemToBasket', function (req, res) {
     console.log("PurchaseItem command", req.body);
     setTimeout(function () {
         //if (req.body.id === 3) {
-            //res.json({message: "Item has already been purchased by Justine"})
+        //res.json({message: "Item has already been purchased by Justine"})
         //} else {
-            raiseEvent('ItemAddedToBasket', req.body.id, req.body, function (err) {
-                if (err) {
-                    throw err;
-                }
-                console.log("EventStored");
-                res.end();
-            });
+        raiseEvent('ItemAddedToBasket', req.body.id, req.body, function (err) {
+            if (err) {
+                throw err;
+            }
+            console.log("EventStored");
+            res.end();
+        });
         //}
     },100);
 });
@@ -160,6 +163,13 @@ app.post('/command/checkoutItems', function (req, res) {
         });
     });
     res.end();
+});
+
+app.post('/command/addMealToMenu', function (req, res) {
+    console.log("AddMealToMenu command", req.body);
+    raiseEvent("MealAddedToMenu", req.body.id, req.body, function (err) {
+        res.end();
+    });
 });
 
 server.listen(port);
