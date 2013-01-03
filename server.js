@@ -8,7 +8,6 @@ eventId = 0;
 console.log("Starting Cubdi Server");
 
 db.on("load", function () {
-    //replay events
     db.forEach(function (key, evt) {
         console.log("Replaying Event", key, evt);
         eventId++;
@@ -17,6 +16,11 @@ db.on("load", function () {
 });
 
 var shoppingListView = {
+    items: [
+    ]
+};
+
+var cupboardView = {
     items: [
     ]
 };
@@ -51,9 +55,19 @@ app.on('ItemRemovedFromShoppingBasket', function (item) {
     getItemInShoppingListView(item.id).state = 'isRequired';
 });
 
+function removeItemFromShoppingListView (itemId) {
+    for(var i=0,l=shoppingListView.length; i<l; i++) {
+        if (shoppingListView[i].id = itemId) {
+            shoppingListView.splice(i);
+            return;
+        }
+    }
+};
+
 app.on('ItemPurchased', function (item) {
     console.log("Handling ItemPurchased", item);
-    console.log("ShoppingListView=", shoppingListView);
+    removeItemFromShoppingListView(item.id);
+    cupboardView.items.push(item);
 });
 
 function raiseEvent (evtType, entityId, body, callback) {
