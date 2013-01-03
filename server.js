@@ -48,7 +48,12 @@ app.on('ItemAddedToBasket', function (purchasedItem) {
 
 app.on('ItemRemovedFromShoppingBasket', function (item) {
     console.log("Handling ItemRemovedFromShoppingBasket", item);
-    getItemInShoppingListView(item.id).state = '';
+    getItemInShoppingListView(item.id).state = 'isRequired';
+});
+
+app.on('ItemPurchased', function (item) {
+    console.log("Handling ItemPurchased", item);
+    console.log("ShoppingListView=", shoppingListView);
 });
 
 function raiseEvent (evtType, entityId, body, callback) {
@@ -118,6 +123,16 @@ app.post('/command/removeItemFromBasket', function (req, res) {
     raiseEvent("ItemRemovedFromShoppingBasket", req.body.id, req.body, function (err) {
         res.end();
     });
+});
+
+app.post('/command/checkoutItems', function (req, res) {
+    console.log("CheckoutItems command", req.body);
+    req.body.forEach(function (item) {
+        raiseEvent("ItemPurchased", item.id, item, function (err) {
+
+        });
+    });
+    res.end();
 });
 
 server.listen(port);

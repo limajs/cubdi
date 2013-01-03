@@ -38,6 +38,13 @@ div.container {
     font-size: 14px;
 }
 
+.basketList {
+    display: none;
+}
+.basketList.show {
+    display: block;
+}
+
 .items-added .adding {
     color: #999;
 }

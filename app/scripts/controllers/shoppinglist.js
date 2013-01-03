@@ -8,7 +8,8 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
             return $scope.items.filter(function (item) {
                 return (item.state !== 'inBasket' &&
                     item.state !== 'isBeingPurchased' &&
-                item.state !== 'error');
+                    item.state !== 'isPurchased' &&
+                    item.state !== 'error');
             });
         };
 
@@ -18,6 +19,13 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
                     item.state === 'isBeingPurchased' ||
                 item.state === 'error');
             });
+        };
+
+        $scope.showBasketList = function () {
+            if ($scope.itemsInBasket().length > 0) {
+                return "show";
+            }
+            return "";
         };
 
         $scope.select = function (item) {
@@ -50,6 +58,17 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
             });
             item.state = 'isBeingPurchased';
             $scope.currentlySelectedItem = null;
+        };
+
+        $scope.checkoutAllItems = function () {
+            var items = $scope.itemsInBasket();
+            $http.post('/command/checkoutItems', items).success(function (data) {
+                console.log("OK, set all Items to Purchased", items);
+                items.forEach(function (item) {
+                    console.log("Setting item as Purchased", item);
+                    item.state = "isPurchased";
+                });
+            });
         };
 
         $scope.shoppingListHeading = function () {
