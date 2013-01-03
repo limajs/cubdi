@@ -29,16 +29,25 @@ app.on('ItemAddedToShoppingList', function (item) {
     });
 });
 
-app.on('ItemPurchased', function (purchasedItem) {
-    console.log("Handling ItemPurchased", purchasedItem);
+function getItemInShoppingListView (itemId) {
     var viewItem = shoppingListView.items.filter(function (item) {
-        return item.id === purchasedItem.id
+        return item.id === itemId
     });
     if (viewItem[0]) {
-        viewItem[0].state = 'isPurchased';
+        return viewItem[0]
     } else {
-        console.log("Can't find purchasedItem in view");
+        throw "Can't find purchasedItem in view";
     }
+};
+
+app.on('ItemAddedToBasket', function (purchasedItem) {
+    console.log("Handling ItemAddedToBasket", purchasedItem);
+    getItemInShoppingListView(purchasedItem.id).state = 'isPurchased';
+});
+
+app.on('ItemRemovedFromShoppingBasket', function (item) {
+    console.log("Handling ItemRemovedFromShoppingBasket", item);
+    getItemInShoppingListView(item.id).state = '';
 });
 
 function raiseEvent (evtType, entityId, body, callback) {
@@ -84,7 +93,7 @@ app.post('/command/purchaseItem', function (req, res) {
         //if (req.body.id === 3) {
             //res.json({message: "Item has already been purchased by Justine"})
         //} else {
-            raiseEvent('ItemPurchased', req.body.id, req.body, function (err) {
+            raiseEvent('ItemAddedToBasket', req.body.id, req.body, function (err) {
                 if (err) {
                     throw err;
                 }
@@ -102,6 +111,12 @@ app.post('/command/addItemToShoppingList', function (req, res) {
             res.end();
         });
     }, 2000);
+});
+
+app.post('/command/removeItemFromBasket', function (req, res) {
+    raiseEvent("ItemRemovedFromShoppingBasket", req.body.id, req.body, function (err) {
+        res.end();
+    });
 });
 
 server.listen(port);

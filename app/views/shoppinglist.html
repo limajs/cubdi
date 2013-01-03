@@ -10,7 +10,8 @@
 
 <h3>you've just bought...</h3>
 <ul ng-repeat="item in itemsPurchased()">
-    <li class="shopping-list-item {{item.state}}"><span>{{item.description}}</span>
-    <div class="comments">{{item.comments}}</div>
+    <li ng-click="select(item)" class="shopping-list-item {{item.state}}"><span>{{item.description}}</span>
+        <div class="comments">{{item.comments}}</div>
+        <button class="btn remove-button" ng-click="removeItemFromBasket(item)">remove</button>
     </li>
 </ul>

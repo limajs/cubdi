@@ -25,6 +25,12 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
             $scope.currentlySelectedItem = item;
         };
 
+        $scope.removeItemFromBasket = function (item) {
+            $http.post('/command/removeItemFromBasket', item).success(function (data) {
+                item.state = '';
+            });
+        };
+
         $scope.purchaseItem = function (item) {
             $http.post('/command/purchaseItem', item).success(function (data) {
                 if (!data) {
