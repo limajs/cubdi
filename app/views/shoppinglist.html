@@ -1,6 +1,6 @@
 <h3>{{shoppingListHeading()}}</h3>
 <ul ng-repeat="item in itemsRequired()">
-    <li ng-click="select(item)" class="shopping-list-item {{item.state}} {{isCurrentlySelected(item)}}">
+    <li ng-click="select(item)" class="food-list-item {{item.state}} {{isCurrentlySelected(item)}}">
     <span>{{item.description}}</span>
     <span>{{item.comments}}</span>
     <button class='btn' ng-click="addItemToBasket(item)">buy now</button>
@@ -11,7 +11,7 @@
 <h3>{{basketListHeading()}}</h3>
 <button class="btn" ng-click="checkoutAllItems()">checkout all items</button>
 <ul ng-repeat="item in itemsInBasket()">
-    <li ng-click="select(item)" class="shopping-list-item {{item.state}} {{isCurrentlySelected(item)}}">
+    <li ng-click="select(item)" class="food-list-item {{item.state}} {{isCurrentlySelected(item)}}">
     <span>{{item.description}}</span>
     <div class="comments">{{item.comments}}</div>
     <button class="btn" ng-click="removeItemFromBasket(item)">remove</button>
