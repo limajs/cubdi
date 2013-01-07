@@ -36,7 +36,7 @@ var menuView = {
 app.on('ItemAddedToShoppingList', function (item) {
     console.log("Handling ItemAddedToShoppingList", item);
     shoppingListView.items.push({
-        id: shoppingListView.items.length + 1,
+        id: item.id,
         description: item.description,
         state: 'isRequired'
     });
@@ -63,11 +63,15 @@ app.on('ItemRemovedFromShoppingBasket', function (item) {
     getItemInShoppingListView(item.id).state = 'isRequired';
 });
 
+app.on('ItemRemovedFromShoppingList', function (item) {
+    console.log("Handling ItemRemovedFromShoppingList", item);
+    removeItemFromShoppingListView(item.id);
+});
+
 function removeItemFromShoppingListView (itemId) {
-    for(var i=0,l=shoppingListView.length; i<l; i++) {
-        if (shoppingListView[i].id = itemId) {
-            shoppingListView.splice(i);
-            return;
+    for(var i=shoppingListView.items.length; i-- > 0;) {
+        if (shoppingListView.items[i].id === itemId) {
+            shoppingListView.items.splice(i, 1);
         }
     }
 };
@@ -159,7 +163,6 @@ app.post('/command/checkoutItems', function (req, res) {
     console.log("CheckoutItems command", req.body);
     req.body.forEach(function (item) {
         raiseEvent("ItemPurchased", item.id, item, function (err) {
-
         });
     });
     res.end();
@@ -168,6 +171,13 @@ app.post('/command/checkoutItems', function (req, res) {
 app.post('/command/addMealToMenu', function (req, res) {
     console.log("AddMealToMenu command", req.body);
     raiseEvent("MealAddedToMenu", req.body.id, req.body, function (err) {
+        res.end();
+    });
+});
+
+app.post('/command/itemNoLongerNeeded', function (req, res) {
+    console.log("ItemNoLongerNeeded", req.body);
+    raiseEvent("ItemRemovedFromShoppingList", req.body.id, req.body, function (err) {
         res.end();
     });
 });

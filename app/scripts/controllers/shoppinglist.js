@@ -71,6 +71,19 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
             });
         };
 
+        $scope.itemNoLongerNeeded = function (item) {
+            $http.post('/command/itemNoLongerNeeded', item).success(function (data) {
+                console.log("Deleting Item", item);
+                for(var i=$scope.itemsRequired().length; i-- > 0;) {
+                    if ($scope.itemsRequired()[i].id === item.id) {
+                        console.log("Removing item", $scope.itemsRequired()[i]);
+                        $scope.itemsRequired().splice(i, 1);
+                    }
+                }
+            });
+            item.state = "beingRemoved";
+        };
+
         $scope.shoppingListHeading = function () {
             var itemsRequiredCount = $scope.itemsRequired().length;
             if (itemsRequiredCount === 0) {
@@ -79,7 +92,7 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
             if (itemsRequiredCount === 1) {
                 return "you need to buy 1 thing"
             }
-            return "you need to buy " + $scope.itemsRequired().length + " thing(s)"
+            return "you need to buy " + $scope.itemsRequired().length + " things"
         };
 
         $scope.basketListHeading = function () {
