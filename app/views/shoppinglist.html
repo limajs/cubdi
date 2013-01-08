@@ -1,5 +1,5 @@
 <h3>{{shoppingListHeading()}}</h3>
-<ul ng-repeat="item in itemsRequired()">
+<ul ng-repeat="item in itemsRequired">
     <li ng-click="select(item)" class="food-list-item {{item.state}} {{isCurrentlySelected(item)}}">
     <span>{{item.description}}</span>
     <span>{{item.comments}}</span>
@@ -11,7 +11,7 @@
 <div class="basketList {{showBasketList()}}">
 <h3>{{basketListHeading()}}</h3>
 <button class="btn" ng-click="checkoutAllItems()">checkout all items</button>
-<ul ng-repeat="item in itemsInBasket()">
+<ul ng-repeat="item in itemsInBasket">
     <li ng-click="select(item)" class="food-list-item {{item.state}} {{isCurrentlySelected(item)}}">
     <span>{{item.description}}</span>
     <div class="comments">{{item.comments}}</div>

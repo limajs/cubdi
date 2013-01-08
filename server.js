@@ -16,8 +16,8 @@ db.on("load", function () {
 });
 
 var shoppingListView = {
-    items: [
-    ]
+    itemsRequired: [],
+    itemsPurchased: []
 };
 
 var cupboardView = {
@@ -35,7 +35,7 @@ var menuView = {
 
 app.on('ItemAddedToShoppingList', function (item) {
     console.log("Handling ItemAddedToShoppingList", item);
-    shoppingListView.items.push({
+    shoppingListView.itemsRequired.push({
         id: item.id,
         description: item.description,
         state: 'isRequired'
@@ -43,7 +43,7 @@ app.on('ItemAddedToShoppingList', function (item) {
 });
 
 function getItemInShoppingListView (itemId) {
-    var viewItem = shoppingListView.items.filter(function (item) {
+    var viewItem = shoppingListView.itemsRequired.filter(function (item) {
         return item.id === itemId
     });
     if (viewItem[0]) {
@@ -69,9 +69,9 @@ app.on('ItemRemovedFromShoppingList', function (item) {
 });
 
 function removeItemFromShoppingListView (itemId) {
-    for(var i=shoppingListView.items.length; i-- > 0;) {
-        if (shoppingListView.items[i].id === itemId) {
-            shoppingListView.items.splice(i, 1);
+    for(var i=shoppingListView.itemsRequired.length; i-- > 0;) {
+        if (shoppingListView.itemsRequired[i].id === itemId) {
+            shoppingListView.itemsRequired.splice(i, 1);
         }
     }
 };
