@@ -41,7 +41,7 @@ div.container {
 .basketList {
     display: none;
 }
-.basketList.show {
+.basketList.show-true {
     display: block;
 }
 

@@ -23,10 +23,7 @@ cubdiApp.controller('ShoppinglistCtrl', function($scope, $http) {
         $scope.itemsInBasket = data.itemsPurchased;
 
         $scope.showBasketList = function () {
-            if ($scope.itemsInBasket.length > 0) {
-                return "show";
-            }
-            return "";
+            return $scope.itemsInBasket.length > 0;
         };
 
         $scope.select = function (item) {

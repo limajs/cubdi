@@ -8,7 +8,7 @@
     </li>
 </ul>
 
-<div class="basketList {{showBasketList()}}">
+<div class="basketList show-{{showBasketList()}}">
 <h3>{{basketListHeading()}}</h3>
 <button class="btn" ng-click="checkoutAllItems()">checkout all items</button>
 <ul ng-repeat="item in itemsInBasket">
